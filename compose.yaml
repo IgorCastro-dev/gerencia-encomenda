@@ -1,9 +1,11 @@
 services:
   postgres:
     image: 'postgres:latest'
+    container_name: postgres_gerencia_encomenda
+    restart: always
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      - 'POSTGRES_DB=gerencia_encomenda'
+      - 'POSTGRES_PASSWORD=senha123'
+      - 'POSTGRES_USER=admin'
     ports:
-      - '5432'
+      - '5440:5432'
