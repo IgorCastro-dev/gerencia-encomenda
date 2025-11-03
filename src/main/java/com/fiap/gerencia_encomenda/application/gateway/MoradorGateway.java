@@ -9,4 +9,5 @@ public interface MoradorGateway {
     String salvar(Morador morador);
     Optional<Morador> buscaPorTelefoneOuEmailOuCpf(String telefone, String email, String cpf);
     List<Morador> listarMoradores();
+    Optional<String> buscaEmailPorNomeEApartamento(String nome, Integer apartamento);
 }

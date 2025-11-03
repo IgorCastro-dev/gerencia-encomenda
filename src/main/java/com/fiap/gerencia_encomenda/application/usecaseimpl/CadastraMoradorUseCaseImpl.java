@@ -5,6 +5,7 @@ import com.fiap.gerencia_encomenda.application.models.CadastraMoradorCommand;
 import com.fiap.gerencia_encomenda.domain.exception.MoradorComDadosExistenteException;
 import com.fiap.gerencia_encomenda.domain.morador.Morador;
 import com.fiap.gerencia_encomenda.usecase.CadastraMoradorUseCase;
+import jakarta.transaction.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +18,7 @@ public class CadastraMoradorUseCaseImpl implements CadastraMoradorUseCase {
     }
 
     @Override
+    @Transactional
     public String execute(CadastraMoradorCommand command) {
         verificarDuplicidades(command);
         Morador morador = criarMorador(command);

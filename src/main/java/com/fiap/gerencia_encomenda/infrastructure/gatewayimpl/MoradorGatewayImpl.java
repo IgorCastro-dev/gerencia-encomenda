@@ -35,4 +35,9 @@ public class MoradorGatewayImpl implements MoradorGateway {
     public List<Morador> listarMoradores() {
         return moradorRepository.findAll().stream().map(MoradorJpaEntity::toDomain).toList();
     }
+
+    @Override
+    public Optional<String> buscaEmailPorNomeEApartamento(String nome, Integer apartamento) {
+        return moradorRepository.findEmailByNomeAndApartamento(nome,apartamento);
+    }
 }

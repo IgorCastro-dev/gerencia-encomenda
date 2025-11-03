@@ -1,7 +1,7 @@
 package com.fiap.gerencia_encomenda.usecase;
 
-import com.fiap.gerencia_encomenda.domain.encomenda.Encomenda;
+import com.fiap.gerencia_encomenda.application.models.RegistraEncomendaCommand;
 
 public interface RegistraEncomendaUseCase {
-    String execute(Encomenda encomenda);
+    String execute(RegistraEncomendaCommand command);
 }
