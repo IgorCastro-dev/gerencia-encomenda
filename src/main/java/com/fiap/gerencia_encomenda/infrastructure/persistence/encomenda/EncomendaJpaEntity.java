@@ -1,8 +1,6 @@
 package com.fiap.gerencia_encomenda.infrastructure.persistence.encomenda;
 
 import com.fiap.gerencia_encomenda.domain.encomenda.Encomenda;
-import com.fiap.gerencia_encomenda.domain.morador.Morador;
-import com.fiap.gerencia_encomenda.infrastructure.persistence.morador.MoradorJpaEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

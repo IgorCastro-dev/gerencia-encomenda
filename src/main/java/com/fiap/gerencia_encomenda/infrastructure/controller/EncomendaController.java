@@ -1,9 +1,7 @@
 package com.fiap.gerencia_encomenda.infrastructure.controller;
 
-import com.fiap.gerencia_encomenda.application.models.CadastraMoradorCommand;
 import com.fiap.gerencia_encomenda.application.models.RegistraEncomendaCommand;
 import com.fiap.gerencia_encomenda.infrastructure.controller.models.EncomendaRequest;
-import com.fiap.gerencia_encomenda.infrastructure.controller.models.MoradorRequest;
 import com.fiap.gerencia_encomenda.usecase.RegistraEncomendaUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -4,6 +4,7 @@ import com.fiap.gerencia_encomenda.application.gateway.MoradorGateway;
 import com.fiap.gerencia_encomenda.domain.morador.Morador;
 import com.fiap.gerencia_encomenda.infrastructure.persistence.morador.MoradorJpaEntity;
 import com.fiap.gerencia_encomenda.infrastructure.persistence.morador.MoradorRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class MoradorGatewayImpl implements MoradorGateway {
     }
 
     @Override
+    @Transactional
     public String salvar(Morador morador) {
         MoradorJpaEntity moradorJpaEntity = MoradorJpaEntity.fromDomain(morador);
         moradorRepository.save(moradorJpaEntity);

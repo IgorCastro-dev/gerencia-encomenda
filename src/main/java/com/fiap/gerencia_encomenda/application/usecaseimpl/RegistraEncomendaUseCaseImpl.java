@@ -29,7 +29,6 @@ public class RegistraEncomendaUseCaseImpl implements RegistraEncomendaUseCase {
     }
 
     @Override
-    @Transactional
     public String execute(RegistraEncomendaCommand command) {
         String email = verificarMorador(command);
         Encomenda encomenda = criarEncomenda(command);
