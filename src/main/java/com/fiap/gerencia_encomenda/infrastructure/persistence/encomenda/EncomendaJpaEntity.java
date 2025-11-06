@@ -1,11 +1,9 @@
 package com.fiap.gerencia_encomenda.infrastructure.persistence.encomenda;
 
 import com.fiap.gerencia_encomenda.domain.encomenda.Encomenda;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
+import com.fiap.gerencia_encomenda.domain.encomenda.StatusEncomenda;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,18 +23,30 @@ public class EncomendaJpaEntity {
     @Column(name = "descricao", nullable = false, length = 500)
     private String descricao;
 
+    @Column(name = "data_recebimento")
+    private LocalDateTime dataRecebimento;
+
+    @Column(name = "data_entregue")
+    private LocalDateTime dataEntregue;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private StatusEncomenda status;
 
     public EncomendaJpaEntity() {}
 
-    private EncomendaJpaEntity(UUID id, String nomeMorador, Integer apartamento, String descricao) {
+    private EncomendaJpaEntity(UUID id, String nomeMorador, Integer apartamento, String descricao, LocalDateTime dataRecebimento, LocalDateTime dataEntregue, StatusEncomenda status) {
         this.id = id;
         this.nomeMorador = nomeMorador;
         this.apartamento = apartamento;
         this.descricao = descricao;
+        this.dataRecebimento = dataRecebimento;
+        this.dataEntregue = dataEntregue;
+        this.status = status;
     }
 
-    public static EncomendaJpaEntity instanceOf(UUID id, String nomeMorador, Integer apartamento, String descricao) {
-        return new EncomendaJpaEntity(id, nomeMorador, apartamento, descricao);
+    public static EncomendaJpaEntity instanceOf(UUID id, String nomeMorador, Integer apartamento, String descricao, LocalDateTime dataRecebimento, LocalDateTime dataEntregue, StatusEncomenda status) {
+        return new EncomendaJpaEntity(id, nomeMorador, apartamento, descricao, dataRecebimento, dataEntregue, status);
     }
 
     public UUID getId() {
@@ -51,48 +61,68 @@ public class EncomendaJpaEntity {
         return nomeMorador;
     }
 
-    public void setNomeMorador(String nomeMorador) {
-        this.nomeMorador = nomeMorador;
-    }
-
     public Integer getApartamento() {
         return apartamento;
-    }
-
-    public void setApartamento(Integer apartamento) {
-        this.apartamento = apartamento;
     }
 
     public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+
+    public LocalDateTime getDataRecebimento() {
+        return dataRecebimento;
+    }
+
+    public LocalDateTime getDataEntregue() {
+        return dataEntregue;
+    }
+
+    public StatusEncomenda getStatus() {
+        return status;
+    }
+
+    public static Encomenda toDomain(EncomendaJpaEntity encomendaJpaEntity) {
+        return Encomenda.instanceOfFull(
+                encomendaJpaEntity.getId(),
+                encomendaJpaEntity.getNomeMorador(),
+                encomendaJpaEntity.getApartamento(),
+                encomendaJpaEntity.getDescricao(),
+                encomendaJpaEntity.getDataEntregue(),
+                encomendaJpaEntity.getDataRecebimento(),
+                encomendaJpaEntity.getStatus()
+        );
     }
 
     public static EncomendaJpaEntity fromDomain(Encomenda encomenda) {
-        return new EncomendaJpaEntity(
+        EncomendaJpaEntity entity = new EncomendaJpaEntity(
                 encomenda.getId(),
                 encomenda.getNomeMorador(),
                 encomenda.getApartamento(),
-                encomenda.getDescricao()
+                encomenda.getDescricao(),
+                encomenda.getDataEntregue(),
+                encomenda.getDataRecebimento(),
+                encomenda.getStatus()
         );
+        return entity;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        EncomendaJpaEntity encomenda = (EncomendaJpaEntity) o;
-        return Objects.equals(id, encomenda.id) &&
-                Objects.equals(nomeMorador, encomenda.nomeMorador) &&
-                Objects.equals(apartamento, encomenda.apartamento) &&
-                Objects.equals(descricao, encomenda.descricao);
+        EncomendaJpaEntity that = (EncomendaJpaEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(nomeMorador, that.nomeMorador) &&
+                Objects.equals(apartamento, that.apartamento) &&
+                Objects.equals(descricao, that.descricao) &&
+                Objects.equals(dataRecebimento, that.dataRecebimento) &&
+                Objects.equals(dataEntregue, that.dataEntregue) &&
+                status == that.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nomeMorador, apartamento, descricao);
+        return Objects.hash(id, nomeMorador, apartamento, descricao, dataRecebimento, dataEntregue, status);
     }
 
     @Override
@@ -102,6 +132,9 @@ public class EncomendaJpaEntity {
                 ", nomeMorador='" + nomeMorador + '\'' +
                 ", apartamento=" + apartamento +
                 ", descricao='" + descricao + '\'' +
+                ", dataRecebimento=" + dataRecebimento +
+                ", dataEntregue=" + dataEntregue +
+                ", status=" + status +
                 '}';
     }
 }

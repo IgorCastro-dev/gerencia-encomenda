@@ -3,7 +3,9 @@ package com.fiap.gerencia_encomenda.infrastructure.config;
 import com.fiap.gerencia_encomenda.application.gateway.EncomendaGateway;
 import com.fiap.gerencia_encomenda.application.gateway.MoradorGateway;
 import com.fiap.gerencia_encomenda.application.gateway.NotificacaoGateway;
+import com.fiap.gerencia_encomenda.application.usecaseimpl.DarBaixaEncomendaUseCaseImpl;
 import com.fiap.gerencia_encomenda.application.usecaseimpl.RegistraEncomendaUseCaseImpl;
+import com.fiap.gerencia_encomenda.usecase.DarBaixaEncomendaUseCase;
 import com.fiap.gerencia_encomenda.usecase.RegistraEncomendaUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,5 +20,12 @@ public class EncomendaUseCaseConfig {
             final EncomendaGateway encomendaGateway
             ) {
         return new RegistraEncomendaUseCaseImpl(moradorGateway,notificacaoGateway,encomendaGateway);
+    }
+
+    @Bean
+    public DarBaixaEncomendaUseCase produceDarBaixaEncomendaUseCase(
+            final EncomendaGateway  encomendaGateway
+    ){
+        return new DarBaixaEncomendaUseCaseImpl(encomendaGateway);
     }
 }
