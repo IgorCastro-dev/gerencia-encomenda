@@ -2,9 +2,8 @@ package com.fiap.gerencia_encomenda.infrastructure.gatewayimpl;
 
 import com.fiap.gerencia_encomenda.application.gateway.EmailGateway;
 import com.fiap.gerencia_encomenda.domain.notificacao.Notificacao;
-import com.resend.Resend;
+import com.fiap.gerencia_encomenda.infrastructure.smtp.EmailClient;
 import com.resend.core.exception.ResendException;
-import com.resend.services.emails.model.CreateEmailOptions;
 import com.resend.services.emails.model.CreateEmailResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,27 +16,27 @@ public class EmailGatewayImpl implements EmailGateway {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailGatewayImpl.class);
 
-    @Value("${resend.api-key}")
-    private String apiKey;
+    private final String fromEmail;
+    private final EmailClient emailClient;
 
-    @Value("${resend.from-email}")
-    private String fromEmail;
+    public EmailGatewayImpl(
+            @Value("${resend.from-email}") String fromEmail,
+            EmailClient emailClient) {
+        this.fromEmail = fromEmail;
+        this.emailClient = emailClient;
+    }
 
     @Override
     public void enviarEmail(Notificacao notificacao) throws ResendException {
         try {
             logger.info("Enviando email para: {}", notificacao.getDestinatario());
 
-            Resend resend = new Resend(apiKey);
-
-            CreateEmailOptions params = CreateEmailOptions.builder()
-                    .from(fromEmail)
-                    .to(notificacao.getDestinatario())
-                    .subject(notificacao.getTitulo())
-                    .html("<strong>" + notificacao.getMensagem() + "</strong>")
-                    .build();
-
-            CreateEmailResponse data = resend.emails().send(params);
+            CreateEmailResponse data = emailClient.enviarEmail(
+                    fromEmail,
+                    notificacao.getDestinatario(),
+                    notificacao.getTitulo(),
+                    "<strong>" + notificacao.getMensagem() + "</strong>"
+            );
 
             logger.info("Email enviado com sucesso. ID: {}, Para: {}",
                     data.getId(), notificacao.getDestinatario());
