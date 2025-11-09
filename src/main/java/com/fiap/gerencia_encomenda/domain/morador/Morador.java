@@ -1,6 +1,5 @@
 package com.fiap.gerencia_encomenda.domain.morador;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class Morador {
@@ -46,17 +45,5 @@ public class Morador {
 
     public String getNome() {
         return nome;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Morador morador = (Morador) o;
-        return Objects.equals(nome, morador.nome) && Objects.equals(cpf, morador.cpf) && Objects.equals(telefone, morador.telefone) && Objects.equals(email, morador.email) && Objects.equals(apartamento, morador.apartamento);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nome, cpf, telefone, email, apartamento);
     }
 }

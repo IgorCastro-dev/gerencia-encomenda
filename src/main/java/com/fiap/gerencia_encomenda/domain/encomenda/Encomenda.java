@@ -1,7 +1,6 @@
 package com.fiap.gerencia_encomenda.domain.encomenda;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Encomenda {
@@ -68,34 +67,4 @@ public class Encomenda {
         this.dataRecebimento = LocalDateTime.now();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Encomenda that = (Encomenda) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(nomeMorador, that.nomeMorador) &&
-                Objects.equals(apartamento, that.apartamento) &&
-                Objects.equals(descricao, that.descricao) &&
-                Objects.equals(dataRecebimento, that.dataRecebimento) &&
-                Objects.equals(dataEntregue, that.dataEntregue) &&
-                status == that.status;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nomeMorador, apartamento, descricao, dataRecebimento, dataEntregue, status);
-    }
-
-    @Override
-    public String toString() {
-        return "Encomenda{" +
-                "id=" + id +
-                ", nomeMorador='" + nomeMorador + '\'' +
-                ", apartamento=" + apartamento +
-                ", descricao='" + descricao + '\'' +
-                ", dataRecebimento=" + dataRecebimento +
-                ", dataEntregue=" + dataEntregue +
-                ", status=" + status +
-                '}';
-    }
 }

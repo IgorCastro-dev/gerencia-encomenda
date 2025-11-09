@@ -1,6 +1,5 @@
 package com.fiap.gerencia_encomenda.infrastructure.smtp;
 
-import com.fiap.gerencia_encomenda.application.gateway.EmailGateway;
 import com.resend.Resend;
 import com.resend.core.exception.ResendException;
 import com.resend.services.emails.model.CreateEmailOptions;

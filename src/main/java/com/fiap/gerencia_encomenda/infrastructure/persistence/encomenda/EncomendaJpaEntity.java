@@ -35,18 +35,18 @@ public class EncomendaJpaEntity {
 
     public EncomendaJpaEntity() {}
 
-    private EncomendaJpaEntity(UUID id, String nomeMorador, Integer apartamento, String descricao, LocalDateTime dataRecebimento, LocalDateTime dataEntregue, StatusEncomenda status) {
-        this.id = id;
-        this.nomeMorador = nomeMorador;
-        this.apartamento = apartamento;
-        this.descricao = descricao;
-        this.dataRecebimento = dataRecebimento;
-        this.dataEntregue = dataEntregue;
-        this.status = status;
-    }
-
-    public static EncomendaJpaEntity instanceOf(UUID id, String nomeMorador, Integer apartamento, String descricao, LocalDateTime dataRecebimento, LocalDateTime dataEntregue, StatusEncomenda status) {
-        return new EncomendaJpaEntity(id, nomeMorador, apartamento, descricao, dataRecebimento, dataEntregue, status);
+    public static EncomendaJpaEntity instanceOf(UUID id, String nomeMorador, Integer apartamento,
+                                                String descricao, LocalDateTime dataRecebimento,
+                                                LocalDateTime dataEntregue, StatusEncomenda status) {
+        EncomendaJpaEntity entity = new EncomendaJpaEntity();
+        entity.setId(id);
+        entity.setNomeMorador(nomeMorador);
+        entity.setApartamento(apartamento);
+        entity.setDescricao(descricao);
+        entity.setDataRecebimento(dataRecebimento);
+        entity.setDataEntregue(dataEntregue);
+        entity.setStatus(status);
+        return entity;
     }
 
     public UUID getId() {
@@ -82,30 +82,43 @@ public class EncomendaJpaEntity {
         return status;
     }
 
+    public void setNomeMorador(String nomeMorador) {
+        this.nomeMorador = nomeMorador;
+    }
+
+    public void setApartamento(Integer apartamento) {
+        this.apartamento = apartamento;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setDataRecebimento(LocalDateTime dataRecebimento) {
+        this.dataRecebimento = dataRecebimento;
+    }
+
+    public void setDataEntregue(LocalDateTime dataEntregue) {
+        this.dataEntregue = dataEntregue;
+    }
+
+    public void setStatus(StatusEncomenda status) {
+        this.status = status;
+    }
+
     public static Encomenda toDomain(EncomendaJpaEntity encomendaJpaEntity) {
         return Encomenda.instanceOfFull(
                 encomendaJpaEntity.getId(),
                 encomendaJpaEntity.getNomeMorador(),
                 encomendaJpaEntity.getApartamento(),
                 encomendaJpaEntity.getDescricao(),
-                encomendaJpaEntity.getDataEntregue(),
                 encomendaJpaEntity.getDataRecebimento(),
+                encomendaJpaEntity.getDataEntregue(),
                 encomendaJpaEntity.getStatus()
         );
     }
 
-    public static EncomendaJpaEntity fromDomain(Encomenda encomenda) {
-        EncomendaJpaEntity entity = new EncomendaJpaEntity(
-                encomenda.getId(),
-                encomenda.getNomeMorador(),
-                encomenda.getApartamento(),
-                encomenda.getDescricao(),
-                encomenda.getDataEntregue(),
-                encomenda.getDataRecebimento(),
-                encomenda.getStatus()
-        );
-        return entity;
-    }
+
 
     @Override
     public boolean equals(Object o) {

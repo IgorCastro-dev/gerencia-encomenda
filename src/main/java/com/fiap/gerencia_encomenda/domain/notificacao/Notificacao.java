@@ -1,7 +1,5 @@
 package com.fiap.gerencia_encomenda.domain.notificacao;
 
-import java.util.Objects;
-
 public class Notificacao {
     private String titulo;
     private String destinatario;
@@ -29,15 +27,4 @@ public class Notificacao {
         return mensagem;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Notificacao that = (Notificacao) o;
-        return Objects.equals(titulo, that.titulo) && Objects.equals(destinatario, that.destinatario) && Objects.equals(mensagem, that.mensagem);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(titulo, destinatario, mensagem);
-    }
 }
