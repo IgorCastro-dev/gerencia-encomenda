@@ -1,38 +1,59 @@
 services:
   postgres:
-    image: 'postgres:latest'
-    container_name: postgres_gerencia_encomenda
-    restart: always
-    environment:
-      - 'POSTGRES_DB=gerencia_encomenda'
-      - 'POSTGRES_PASSWORD=senha123'
-      - 'POSTGRES_USER=admin'
-    ports:
-      - '5440:5432'
+      image: 'postgres:latest'
+      container_name: postgres_gerencia_encomenda
+      restart: always
+      environment:
+        - 'POSTGRES_DB=gerencia_encomenda'
+        - 'POSTGRES_PASSWORD=senha123'
+        - 'POSTGRES_USER=admin'
+      ports:
+        - '5432:5432'
+      networks:
+        - kafka-network
+
   kafka:
-    image: apache/kafka:3.7.0
-    container_name: kafka
-    ports:
-      - "9092:9092"
-      - "29092:29092"
-    environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-    volumes:
-      - kafka_data:/tmp/kraft-combined-logs
-    networks:
-      - kafka-network
+      image: apache/kafka:3.7.0
+      container_name: kafka
+      ports:
+        - "9092:9092"
+        - "29092:29092"
+      environment:
+        KAFKA_NODE_ID: 1
+        KAFKA_PROCESS_ROLES: broker,controller
+        KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+        KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093,PLAINTEXT_HOST://0.0.0.0:9092
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+        KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+        KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+        KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+        KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+        KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      volumes:
+        - kafka_data:/tmp/kraft-combined-logs
+      networks:
+        - kafka-network
+
+  gerencia-encomenda:
+      image: gerencia-encomenda
+      container_name: gerencia-encomenda
+      ports:
+        - "8080:8080"
+      networks:
+        - kafka-network
+      environment:
+        - DATABASE_URL=jdbc:postgresql://postgres_gerencia_encomenda:5432/gerencia_encomenda
+        - DATABASE_USERNAME=admin
+        - DATABASE_PASSWORD=senha123
+        - KAFKA_BROKERS=kafka:29092
+        - RESEND_API_KEY=re_LpRNY2XJ_9xGtkKj8T3LfFs9XCZaDbRBB
+      restart: unless-stopped
+      depends_on:
+        - postgres
+        - kafka
 
 volumes:
   kafka_data:
