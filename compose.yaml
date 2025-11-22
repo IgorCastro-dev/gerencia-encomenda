@@ -38,7 +38,7 @@ services:
         - kafka-network
 
   gerencia-encomenda:
-      image: gerencia-encomenda
+      build: .
       container_name: gerencia-encomenda
       ports:
         - "8080:8080"

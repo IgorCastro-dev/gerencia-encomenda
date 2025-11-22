@@ -37,13 +37,13 @@ class EmailGatewayImplTest {
     void deveEnviarEmailComSucesso() throws ResendException {
         Notificacao notificacao = new Notificacao(
                 "Teste Subject",
-                "destinatario@test.com",
+                "manolonit3@gmail.com",
                 "Mensagem de teste"
         );
 
         when(emailClient.enviarEmail(
                 eq("from@test.com"),
-                eq("destinatario@test.com"),
+                eq("manolonit3@gmail.com"),
                 eq("Teste Subject"),
                 contains("Mensagem de teste")
         )).thenReturn(createEmailResponse);
@@ -56,7 +56,7 @@ class EmailGatewayImplTest {
         // Assert
         verify(emailClient).enviarEmail(
                 "from@test.com",
-                "destinatario@test.com",
+                "manolonit3@gmail.com",
                 "Teste Subject",
                 "<strong>Mensagem de teste</strong>"
         );
@@ -66,7 +66,7 @@ class EmailGatewayImplTest {
     void deveLancarExcecaoQuandoClientFalhar() throws ResendException {
         Notificacao notificacao = new Notificacao(
                 "Teste Subject",
-                "destinatario@test.com",
+                "manolonit3@gmail.com",
                 "Mensagem de teste"
         );
 
@@ -80,7 +80,7 @@ class EmailGatewayImplTest {
     void deveLogarInformacoesCorretasNoSucesso() throws ResendException {
         Notificacao notificacao = new Notificacao(
                 "Teste Subject",
-                "destinatario@test.com",
+                "manolonit3@gmail.com",
                 "Mensagem de teste"
         );
 
@@ -92,7 +92,7 @@ class EmailGatewayImplTest {
 
         verify(emailClient).enviarEmail(
                 "from@test.com",
-                "destinatario@test.com",
+                "manolonit3@gmail.com",
                 "Teste Subject",
                 "<strong>Mensagem de teste</strong>"
         );
